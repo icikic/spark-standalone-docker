@@ -1,0 +1,42 @@
+version: '3.5'
+
+services:
+
+  # master
+  ################
+  master:
+    build: ./
+    hostname: master
+    image: spark-standalone:2.2.1
+    command: bin/spark-class org.apache.spark.deploy.master.Master
+    environment:
+      - SPARK_MASTER_HOST=master
+      - SPARK_MASTER_PORT=7077
+      - SPARK_MASTER_MEMORY=1G
+    ports:
+      - 4040:4040
+      - 6066:6066
+      - 8080:8080
+    volumes:
+      - libs:/libs
+      - data:/data
+
+  # woker
+  ##################
+  worker:
+    build: ./
+    image: spark-standalone:2.2.1
+    command: bin/spark-class org.apache.spark.deploy.worker.Worker spark://master:7077
+    environment:
+      - SPARK_WORKER_CORES=2
+      - SPARK_WORKER_MEMORY=2g
+    ports:
+      - 18081-18099:8081
+    volumes:
+      - data:/data
+    depends_on:
+      - master
+
+volumes:
+  libs:
+  data:
