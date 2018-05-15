@@ -14,10 +14,10 @@ Start cluster with 2 worker nodes
 
 Start spark-shell session
 
-- ```spark-compose exec master bin/spark-shell --master spark://master:7077```
+- ```docker-compose exec master bin/spark-shell --master spark://master:7077```
 
 Start spark-shell with additional libraries
 
-- ```spark-compose exec master bin/spark-shell --master spark://master:7077 --jars /libs/foo.jar```
+- ```docker-compose exec master bin/spark-shell --master spark://master:7077 --jars /libs/foo.jar```
 
 
